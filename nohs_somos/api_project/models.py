@@ -1,16 +1,30 @@
 from django.db import models
-from uuid import uuid4
+from uuid import uuid1
 
 # Create your models here.
 
 
+class Autores(models.Model):
+    id_autor = models.AutoField(primary_key=True)
+
+    nome = models.CharField(max_length=60, unique=True)
+
+    nascimento = models.IntegerField(default=0)
+
+
 class Livros(models.Model):
     id_livro = models.UUIDField(
-        primary_key=True, default=uuid4, editable=False)
+        primary_key=True, default=uuid1, editable=False)
 
     titulo = models.CharField(max_length=60)
 
-    autor = models.CharField(max_length=50)
+    autor = models.ForeignKey(
+        Autores,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        to_field='id_autor'
+    )
 
     ano_lancamento = models.IntegerField()
 
