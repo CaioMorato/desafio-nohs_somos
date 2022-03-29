@@ -11,6 +11,9 @@ class Autores(models.Model):
 
     nascimento = models.IntegerField(default=0)
 
+    def __str__(self) -> str:
+        return self.nome
+
 
 class Livros(models.Model):
     id_livro = models.UUIDField(

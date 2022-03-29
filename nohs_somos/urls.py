@@ -16,14 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from rest_framework import routers
-from nohs_somos.api_project import views
 
-route = routers.DefaultRouter()
-
-route.register(r'livros', views.LivrosViewSet, basename='Livros')
-route.register(r'autores', views.AutoresViewSet, basename='Autores')
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(route.urls))
+    path('autores/', include('nohs_somos.api_project.urls'))
 ]
