@@ -4,8 +4,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from nohs_somos.api_project.models import Autores
-from nohs_somos.api_project.serializers import AutoresSerializer
+from nohs_somos.api_project.models import Autores, Livros
+from nohs_somos.api_project.serializers import AutoresSerializer, LivrosSerializer
 # Create your views here.
 
 
@@ -40,3 +40,24 @@ def deletar_autores(request, pk):
     if request.method == 'DELETE':
         autor.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET', 'POST'])
+def listar_salvar_livros(request):
+    if request.method == 'GET':
+        livros = Livros.objects.all()
+        serializer = LivrosSerializer(livros, many=True)
+
+        if len(serializer.data) < 1:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        serializer = LivrosSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
