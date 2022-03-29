@@ -1,5 +1,4 @@
 from django.db import models
-from uuid import uuid1
 
 # Create your models here.
 
@@ -9,15 +8,14 @@ class Autores(models.Model):
 
     nome = models.CharField(max_length=60, unique=True)
 
-    nascimento = models.IntegerField(default=0)
+    nascimento = models.IntegerField()
 
     def __str__(self) -> str:
         return self.nome
 
 
 class Livros(models.Model):
-    id_livro = models.UUIDField(
-        primary_key=True, default=uuid1, editable=False)
+    id_livro = models.AutoField(primary_key=True)
 
     titulo = models.CharField(max_length=60)
 
